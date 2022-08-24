@@ -18,11 +18,15 @@ function SearchBooks({ allBooks, updateShelf }) {
   useEffect(() => {
     const getSearchResults = async () => {
       const results = await BooksAPI.search(query, 50);
+
       if (Array.isArray(results)) {
+        //setting books state to the search results
         setBooks(results);
-        var intersectedBooks = allBooks.filter(
-          (b) => results.find((e) => e.id === b.id) !== undefined
+        //finding the books that I have from the gettAll() func that matched in the search results
+        let intersectedBooks = allBooks.filter(
+          (b) => results.find((r) => r.id === b.id) !== undefined
         );
+        //setting the intersectedBooks to the matched books
         setIntersections(intersectedBooks);
       } else {
         setBooks([]);
@@ -51,17 +55,22 @@ function SearchBooks({ allBooks, updateShelf }) {
       <div className="search-books-results">
         {query && Array.isArray(books) ? (
           <ol className="books-grid">
-            {books.map((book) => {
-              return intersections.find((b) => b.id === book.id) ? (
-                <Book
-                  key={book.id}
-                  book={intersections.find((b) => b.id === book.id)}
-                  updateShelf={updateShelf}
-                />
-              ) : (
-                <Book key={book.id} book={book} updateShelf={updateShelf} />
-              );
-            })}
+            {
+              //sending the matched book from allBooks prop instead of the book from the search result
+              //so it can have the shelf attribute. because the books coming from the search doesn't have
+              //a shelf attribute
+              books.map((book) => {
+                return intersections.find((b) => b.id === book.id) ? (
+                  <Book
+                    key={book.id}
+                    book={intersections.find((b) => b.id === book.id)}
+                    updateShelf={updateShelf}
+                  />
+                ) : (
+                  <Book key={book.id} book={book} updateShelf={updateShelf} />
+                );
+              })
+            }
           </ol>
         ) : null}
       </div>
