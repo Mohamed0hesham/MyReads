@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useUpdateShelf } from "../Contexts/BooksContext";
 import PropTypes from "prop-types";
 
-function BookDropDown({ book, updateShelf }) {
+function BookDropDown({ book }) {
   const [selection, setSelection] = useState("none");
+  const updateShelf = useUpdateShelf();
+
   const onSelectHandler = (event) => {
     const selectedValue = event.target.value;
     setSelection(selectedValue);
@@ -28,7 +31,7 @@ function BookDropDown({ book, updateShelf }) {
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
         <option value="read">Read</option>
-        {hasShelf() ? <option value="none">None</option> : null}
+        {hasShelf() && <option value="none">None</option>}
       </select>
     </div>
   );
@@ -36,7 +39,6 @@ function BookDropDown({ book, updateShelf }) {
 
 BookDropDown.propTypes = {
   book: PropTypes.object,
-  updateShelf: PropTypes.func,
 };
 
 export default BookDropDown;

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import BookDropDown from "./BookDropDown";
 
-function Book({ book, updateShelf }) {
+function Book({ book }) {
   const { title, authors, imageLinks } = book;
   let imgThumbnail = "";
   imageLinks ? (imgThumbnail = imageLinks.thumbnail) : (imgThumbnail = "");
@@ -19,7 +19,7 @@ function Book({ book, updateShelf }) {
               backgroundImage: `url(${imgThumbnail})`,
             }}
           ></div>
-          <BookDropDown book={book} updateShelf={updateShelf} />
+          <BookDropDown book={book} />
         </div>
         <div className="book-title">{title}</div>
         <div className="book-authors">
@@ -34,7 +34,6 @@ function Book({ book, updateShelf }) {
 
 Book.propTypes = {
   book: PropTypes.object,
-  updateShelf: PropTypes.func,
 };
 
 export default Book;

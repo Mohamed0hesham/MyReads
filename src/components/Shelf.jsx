@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useBooks } from "../Contexts/BooksContext";
 import PropTypes from "prop-types";
 import Book from "./Book";
 
-function Shelf({ shelfName, books, updateShelf }) {
+function Shelf({ shelfName }) {
   const [shelfBooks, setShelfBooks] = useState([]);
+  const books = useBooks();
 
   useEffect(() => {
     const filterBooks = () => {
@@ -18,7 +20,7 @@ function Shelf({ shelfName, books, updateShelf }) {
       <div className="bookshelf-books">
         <ol className="books-grid">
           {shelfBooks.map((book) => {
-            return <Book key={book.id} book={book} updateShelf={updateShelf} />;
+            return <Book key={book.id} book={book} />;
           })}
         </ol>
       </div>
@@ -28,8 +30,6 @@ function Shelf({ shelfName, books, updateShelf }) {
 
 Shelf.propTypes = {
   shelfName: PropTypes.string,
-  books: PropTypes.array,
-  updateShelf: PropTypes.func,
 };
 
 export default Shelf;
